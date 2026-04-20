@@ -8,7 +8,7 @@ const services = [
   { icon: Zap, title: "Elektrik & Elektronik", desc: "Aküden aydınlatmaya, CDI'den beyin arızalarına kadar tüm elektrik sorunlarını çözüyoruz." },
   { icon: Package, title: "Yedek Parça Satışı", desc: "Orijinal ve muadil yedek parçalar geniş stoğumuzda. Bulunmayan parçalar kısa sürede temin edilir." },
   { icon: Settings, title: "Bakım & Onarım", desc: "Yağ değişimi, filtre, balata, zincir-dişli seti ve lastik değişimi gibi rutin bakım hizmetleri." },
-  { icon: ShieldCheck, title: "Garanti Kapsamı", desc: "Yetkili bayii olarak tüm satış ve servis işlemlerimiz garanti kapsamında gerçekleştirilir." },
+  { icon: ShieldCheck, title: "Garanti Kapsamı", desc: "Yetkili servis bayi olarak tüm satış ve servis işlemlerimiz garanti kapsamında gerçekleştirilir." },
 ];
 
 const Hizmetler = () => {

@@ -28,13 +28,13 @@ const HeroSection = () => {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-medium text-muted-foreground mb-6 animate-fade-in">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              TVS • Hero • Falcon • Işıldar Yetkili Bayii
+              TVS • Hero • Falcon • Işıldar Yetkili Servis Bayi
             </div>
 
             <h1 className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 animate-fade-in text-foreground" style={{ animationDelay: "0.1s" }}>
               İstanbul'un Güvenilir{" "}
               <span className="gradient-text">Motosiklet</span>{" "}
-              Yetkili Bayii
+              Yetkili Servis Bayi
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
@@ -74,26 +74,26 @@ const HeroSection = () => {
           </div>
 
           {/* Right: Animated Logo */}
-          <div className="hidden lg:flex items-center justify-center relative">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-80 h-80 rounded-full bg-primary/20 blur-3xl animate-pulse" />
+          <div className="hidden lg:flex items-center justify-center relative min-h-[480px]">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-96 h-96 rounded-full bg-primary/20 blur-3xl animate-pulse" />
             </div>
-            <div className="relative animate-float-logo logo-shine rounded-2xl">
+            <div className="relative animate-logo-hero logo-shine">
               <img
                 src={logo}
                 alt="Paşa Motor logosu"
                 width={520}
                 height={520}
-                className="relative w-full max-w-md drop-shadow-2xl"
+                className="relative w-full max-w-md"
               />
             </div>
           </div>
         </div>
 
         {/* Mobile logo */}
-        <div className="lg:hidden flex justify-center mt-12 animate-fade-in" style={{ animationDelay: "0.5s" }}>
-          <div className="relative animate-float-logo logo-shine rounded-2xl">
-            <img src={logo} alt="Paşa Motor logosu" width={260} height={260} className="w-56 h-auto drop-shadow-2xl" />
+        <div className="lg:hidden flex justify-center mt-12">
+          <div className="relative animate-logo-hero logo-shine">
+            <img src={logo} alt="Paşa Motor logosu" width={260} height={260} className="w-56 h-auto" />
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
 
 User-agent: GPTBot
 Allow: /
@@ -25,4 +27,4 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://pasamotor.com.tr/sitemap.xml
+Sitemap: https://mcwkagvdbeofchimcclh.supabase.co/functions/v1/sitemap

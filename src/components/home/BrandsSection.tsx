@@ -11,7 +11,7 @@ const BrandsSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
           <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-2">
-            Yetkili Bayii Markalarımız
+            Yetkili Servis Bayi Markalarımız
           </h2>
           <p className="text-muted-foreground">
             4 büyük markanın İstanbul Fatih yetkili satış ve servis noktası

@@ -9,7 +9,7 @@ const Footer = () => {
           <div>
             <h3 className="font-heading font-bold text-xl text-foreground mb-3">Paşa Motor</h3>
             <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-              İstanbul Fatih'te TVS, Hero, Falcon ve Işıldar yetkili bayii. Motosiklet satış, servis ve yedek parça hizmetleri.
+              İstanbul Fatih'te TVS, Hero, Falcon ve Işıldar yetkili servis bayi. Motosiklet satış, servis ve yedek parça hizmetleri.
             </p>
             <div className="flex gap-2">
               {["TVS", "Hero", "Falcon", "Işıldar"].map((brand) => (

@@ -27,7 +27,7 @@ const Header = () => {
               <span className="font-heading font-bold text-lg leading-tight block text-foreground">
                 Paşa Motor
               </span>
-              <span className="text-xs text-muted-foreground">Yetkili Bayii</span>
+              <span className="text-xs text-muted-foreground">Yetkili Servis Bayi</span>
             </div>
           </Link>
 

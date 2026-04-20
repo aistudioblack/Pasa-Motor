@@ -3,7 +3,7 @@ import { Shield, Award, Users, Calendar } from "lucide-react";
 
 const highlights = [
   { icon: Calendar, title: "20+ Yıllık Deneyim", desc: "Motosiklet sektöründe yılların verdiği tecrübe ve güvenle hizmet veriyoruz." },
-  { icon: Shield, title: "Yetkili Bayii", desc: "TVS, Hero, Falcon ve Işıldar markalarının resmi yetkili satış ve servis noktasıyız." },
+  { icon: Shield, title: "Yetkili Servis Bayi", desc: "TVS, Hero, Falcon ve Işıldar markalarının resmi yetkili satış ve servis noktasıyız." },
   { icon: Users, title: "1000+ Mutlu Müşteri", desc: "Binlerce müşterimize kaliteli hizmet sunmanın gururunu yaşıyoruz." },
   { icon: Award, title: "Profesyonel Ekip", desc: "Eğitimli ve deneyimli kadromuzla size en iyi hizmeti sunuyoruz." },
 ];
@@ -39,7 +39,7 @@ const Hakkimizda = () => {
             <p className="text-muted-foreground leading-relaxed mb-6">
               Müşterilerimize en kaliteli motosikletleri, en uygun fiyatlarla sunmak ve satış sonrası hizmetlerimizle sektörde fark yaratmak. Her müşterimizin güvenle yola çıkmasını sağlamak temel amacımızdır.
             </p>
-            <h2 className="font-heading font-bold text-2xl text-foreground mb-4">Yetkili Bayii</h2>
+            <h2 className="font-heading font-bold text-2xl text-foreground mb-4">Yetkili Servis Bayi</h2>
             <p className="text-muted-foreground leading-relaxed">
               Nihat KAN liderliğinde faaliyet gösteren Paşa Motor, Kızılelma Caddesi üzerindeki showroom ve servis merkeziyle sizlere hizmet vermektedir. Orijinal yedek parça garantisi ve uzman teknik kadromuzla motosikletiniz emin ellerdedir.
             </p>

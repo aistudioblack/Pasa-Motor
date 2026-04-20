@@ -61,7 +61,7 @@ export const motorcycleDealerSchema = {
     {
       "@type": "WebSite",
       "@id": "https://pasamotor.com.tr/#website",
-      name: "Paşa Motor — İstanbul Fatih Motosiklet Yetkili Bayii",
+      name: "Paşa Motor • İstanbul Fatih Motosiklet Yetkili Servis Bayi",
       url: "https://pasamotor.com.tr",
     },
   ],
