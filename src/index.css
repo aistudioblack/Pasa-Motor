@@ -125,29 +125,54 @@ html {
   background: hsl(var(--muted-foreground));
 }
 
-/* Logo animations */
-@keyframes float-logo {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50% { transform: translateY(-12px) rotate(1deg); }
+/* Logo intro + loop animation sequence: jump out of box → spin → heartbeat → settle */
+@keyframes logo-sequence {
+  /* Box pop-in */
+  0%   { transform: translateY(120px) scale(0.2) rotate(0deg); opacity: 0; }
+  8%   { transform: translateY(-40px) scale(1.15) rotate(-8deg); opacity: 1; }
+  14%  { transform: translateY(10px) scale(0.92) rotate(6deg); }
+  20%  { transform: translateY(0) scale(1) rotate(0deg); }
+
+  /* Tornado / hose spin */
+  22%  { transform: translateY(0) scale(1) rotate(0deg); }
+  38%  { transform: translateY(-8px) scale(1.05) rotate(360deg); }
+  44%  { transform: translateY(0) scale(1) rotate(720deg); }
+
+  /* Heartbeat */
+  48%  { transform: scale(1) rotate(720deg); }
+  52%  { transform: scale(1.12) rotate(720deg); }
+  56%  { transform: scale(0.96) rotate(720deg); }
+  60%  { transform: scale(1.1) rotate(720deg); }
+  64%  { transform: scale(1) rotate(720deg); }
+
+  /* Slow settle / float */
+  80%  { transform: translateY(-10px) scale(1.02) rotate(720deg); }
+  100% { transform: translateY(0) scale(1) rotate(720deg); }
 }
 
-@keyframes glow-pulse {
-  0%, 100% { filter: drop-shadow(0 0 20px hsl(45 90% 55% / 0.4)) drop-shadow(0 0 40px hsl(0 85% 55% / 0.2)); }
-  50% { filter: drop-shadow(0 0 35px hsl(45 90% 55% / 0.7)) drop-shadow(0 0 60px hsl(0 85% 55% / 0.4)); }
+@keyframes logo-glow {
+  0%, 100% { filter: drop-shadow(0 10px 25px hsl(0 85% 55% / 0.35)) drop-shadow(0 0 30px hsl(0 85% 55% / 0.25)); }
+  50%      { filter: drop-shadow(0 15px 40px hsl(0 85% 55% / 0.55)) drop-shadow(0 0 60px hsl(215 80% 55% / 0.35)); }
 }
 
-@keyframes shine {
-  0% { transform: translateX(-100%) skewX(-20deg); }
-  100% { transform: translateX(200%) skewX(-20deg); }
+@keyframes logo-shine-sweep {
+  0%   { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
+  10%  { opacity: 1; }
+  60%  { opacity: 1; }
+  100% { transform: translateX(250%) skewX(-25deg); opacity: 0; }
 }
 
-.animate-float-logo {
-  animation: float-logo 6s ease-in-out infinite, glow-pulse 4s ease-in-out infinite;
+.animate-logo-hero {
+  animation: logo-sequence 7s cubic-bezier(0.33, 1, 0.68, 1) infinite, logo-glow 3.5s ease-in-out infinite;
+  transform-origin: center center;
+  will-change: transform, filter;
 }
 
 .logo-shine {
   position: relative;
   overflow: hidden;
+  border-radius: 1.25rem;
+  isolation: isolate;
 }
 
 .logo-shine::after {
@@ -155,10 +180,20 @@ html {
   position: absolute;
   top: 0;
   left: 0;
-  width: 50%;
+  width: 40%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.25), transparent);
-  animation: shine 3.5s ease-in-out infinite;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    hsl(0 0% 100% / 0.05) 30%,
+    hsl(0 0% 100% / 0.45) 50%,
+    hsl(0 0% 100% / 0.05) 70%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: logo-shine-sweep 5s ease-in-out infinite;
+  animation-delay: 1.5s;
 }
 
 /* Animations */

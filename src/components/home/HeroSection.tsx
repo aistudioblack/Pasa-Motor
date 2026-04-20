@@ -74,26 +74,26 @@ const HeroSection = () => {
           </div>
 
           {/* Right: Animated Logo */}
-          <div className="hidden lg:flex items-center justify-center relative">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-80 h-80 rounded-full bg-primary/20 blur-3xl animate-pulse" />
+          <div className="hidden lg:flex items-center justify-center relative min-h-[480px]">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-96 h-96 rounded-full bg-primary/20 blur-3xl animate-pulse" />
             </div>
-            <div className="relative animate-float-logo logo-shine rounded-2xl">
+            <div className="relative animate-logo-hero logo-shine">
               <img
                 src={logo}
                 alt="Paşa Motor logosu"
                 width={520}
                 height={520}
-                className="relative w-full max-w-md drop-shadow-2xl"
+                className="relative w-full max-w-md"
               />
             </div>
           </div>
         </div>
 
         {/* Mobile logo */}
-        <div className="lg:hidden flex justify-center mt-12 animate-fade-in" style={{ animationDelay: "0.5s" }}>
-          <div className="relative animate-float-logo logo-shine rounded-2xl">
-            <img src={logo} alt="Paşa Motor logosu" width={260} height={260} className="w-56 h-auto drop-shadow-2xl" />
+        <div className="lg:hidden flex justify-center mt-12">
+          <div className="relative animate-logo-hero logo-shine">
+            <img src={logo} alt="Paşa Motor logosu" width={260} height={260} className="w-56 h-auto" />
           </div>
         </div>
       </div>
