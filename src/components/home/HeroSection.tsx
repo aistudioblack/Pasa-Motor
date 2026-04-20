@@ -1,6 +1,7 @@
 import { ChevronRight, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
+import logo from "@/assets/pasa-motor-logo.png";
 
 const HeroSection = () => {
   return (
@@ -16,57 +17,83 @@ const HeroSection = () => {
         />
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(180deg, hsl(220 20% 7% / 0.3) 0%, hsl(220 20% 7% / 0.85) 60%, hsl(220 20% 7%) 100%)" }}
+          style={{ background: "linear-gradient(180deg, hsl(220 20% 7% / 0.55) 0%, hsl(220 20% 7% / 0.85) 60%, hsl(220 20% 7%) 100%)" }}
         />
       </div>
 
       {/* Content */}
       <div className="relative container mx-auto px-4 py-20">
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-medium text-muted-foreground mb-6 animate-fade-in">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            TVS • Hero • Falcon • Işıldar Yetkili Bayii
+        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 items-center">
+          {/* Left text */}
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-medium text-muted-foreground mb-6 animate-fade-in">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              TVS • Hero • Falcon • Işıldar Yetkili Bayii
+            </div>
+
+            <h1 className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 animate-fade-in text-foreground" style={{ animationDelay: "0.1s" }}>
+              İstanbul'un Güvenilir{" "}
+              <span className="gradient-text">Motosiklet</span>{" "}
+              Yetkili Bayii
+            </h1>
+
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+              Fatih'te 4 markanın yetkili satış ve servis noktası. Motosiklet satışı, profesyonel servis ve orijinal yedek parça hizmetleri.
+            </p>
+
+            <div className="flex flex-wrap gap-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+              <Link
+                to="/iletisim"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-all glow-red"
+              >
+                Bize Ulaşın
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+              <a
+                href="tel:+902125868598"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg glass text-foreground font-semibold text-sm hover:bg-muted/50 transition-all"
+              >
+                <Phone className="w-4 h-4" />
+                Hemen Arayın
+              </a>
+            </div>
+
+            {/* Stats */}
+            <div className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-border/50 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+              {[
+                { value: "4", label: "Yetkili Marka" },
+                { value: "20+", label: "Yıllık Deneyim" },
+                { value: "1000+", label: "Mutlu Müşteri" },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <p className="font-heading font-bold text-2xl md:text-3xl gradient-text">{stat.value}</p>
+                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 animate-fade-in text-foreground" style={{ animationDelay: "0.1s" }}>
-            İstanbul'un Güvenilir{" "}
-            <span className="gradient-text">Motosiklet</span>{" "}
-            Yetkili Bayii
-          </h1>
-
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            Fatih'te 4 markanın yetkili satış ve servis noktası. Motosiklet satışı, profesyonel servis ve orijinal yedek parça hizmetleri.
-          </p>
-
-          <div className="flex flex-wrap gap-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-            <Link
-              to="/iletisim"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-all glow-red"
-            >
-              Bize Ulaşın
-              <ChevronRight className="w-4 h-4" />
-            </Link>
-            <a
-              href="tel:+902125868598"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg glass text-foreground font-semibold text-sm hover:bg-muted/50 transition-all"
-            >
-              <Phone className="w-4 h-4" />
-              Hemen Arayın
-            </a>
+          {/* Right: Animated Logo */}
+          <div className="hidden lg:flex items-center justify-center relative">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-80 h-80 rounded-full bg-primary/20 blur-3xl animate-pulse" />
+            </div>
+            <div className="relative animate-float-logo logo-shine rounded-2xl">
+              <img
+                src={logo}
+                alt="Paşa Motor logosu"
+                width={520}
+                height={520}
+                className="relative w-full max-w-md drop-shadow-2xl"
+              />
+            </div>
           </div>
+        </div>
 
-          {/* Stats */}
-          <div className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-border/50 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-            {[
-              { value: "4", label: "Yetkili Marka" },
-              { value: "20+", label: "Yıllık Deneyim" },
-              { value: "1000+", label: "Mutlu Müşteri" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="font-heading font-bold text-2xl md:text-3xl gradient-text">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-              </div>
-            ))}
+        {/* Mobile logo */}
+        <div className="lg:hidden flex justify-center mt-12 animate-fade-in" style={{ animationDelay: "0.5s" }}>
+          <div className="relative animate-float-logo logo-shine rounded-2xl">
+            <img src={logo} alt="Paşa Motor logosu" width={260} height={260} className="w-56 h-auto drop-shadow-2xl" />
           </div>
         </div>
       </div>

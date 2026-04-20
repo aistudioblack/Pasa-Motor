@@ -21,7 +21,7 @@ const YedekParcaDetay = () => {
         .select("*")
         .eq("slug", slug)
         .eq("is_active", true)
-        .single();
+        .maybeSingle();
       setProduct(data);
       setLoading(false);
     };
@@ -54,9 +54,9 @@ const YedekParcaDetay = () => {
         <section className="py-16 md:py-24 text-center">
           <div className="container mx-auto px-4">
             <Package className="w-16 h-16 mx-auto text-muted-foreground/30 mb-4" />
-            <h1 className="font-heading font-bold text-2xl text-foreground mb-4">Urun bulunamadi</h1>
+            <h1 className="font-heading font-bold text-2xl text-foreground mb-4">Ürün bulunamadı</h1>
             <Link to="/yedek-parca" className="text-primary hover:underline">
-              Yedek Parca sayfasina don
+              Yedek Parça sayfasına dön
             </Link>
           </div>
         </section>
@@ -70,7 +70,7 @@ const YedekParcaDetay = () => {
         <div className="container mx-auto px-4">
           <Link to="/yedek-parca" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
             <ArrowLeft className="w-4 h-4" />
-            Yedek Parcaya Don
+            Yedek Parçaya Dön
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -142,7 +142,7 @@ const YedekParcaDetay = () => {
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-colors"
                 >
                   <Phone className="w-5 h-5" />
-                  Hemen Arayin
+                  Hemen Arayın
                 </a>
               </div>
             </div>

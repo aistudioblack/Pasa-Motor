@@ -40,7 +40,7 @@ const Blog = () => {
           <div className="text-center mb-12">
             <h1 className="font-heading font-bold text-3xl md:text-5xl text-foreground mb-4">Blog</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Motosiklet bakim ipuclari, sektorel haberler ve Pasa Motor'dan guncel paylasimlar.
+              Motosiklet bakım ipuçları, sektörel haberler ve Paşa Motor'dan güncel paylaşımlar.
             </p>
           </div>
 
@@ -90,7 +90,7 @@ const Blog = () => {
                       <p className="text-sm text-muted-foreground line-clamp-3 mb-4">{post.excerpt}</p>
                     )}
                     <span className="inline-flex items-center gap-1 text-sm text-primary font-medium">
-                      Devamini Oku
+                      Devamını Oku
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </div>
@@ -100,8 +100,8 @@ const Blog = () => {
           ) : (
             <div className="text-center py-16">
               <BookOpen className="w-16 h-16 mx-auto text-muted-foreground/30 mb-4" />
-              <p className="text-muted-foreground text-lg mb-2">Henuz blog yazisi yayinlanmadi</p>
-              <p className="text-sm text-muted-foreground">Yakinda motosiklet bakim ipuclari ve haberler burada olacak.</p>
+              <p className="text-muted-foreground text-lg mb-2">Henüz blog yazısı yayınlanmadı</p>
+              <p className="text-sm text-muted-foreground">Yakında motosiklet bakım ipuçları ve haberler burada olacak.</p>
             </div>
           )}
         </div>

@@ -63,8 +63,8 @@ const BlogDetay = () => {
         <section className="py-16 md:py-24 text-center">
           <div className="container mx-auto px-4">
             <BookOpen className="w-16 h-16 mx-auto text-muted-foreground/30 mb-4" />
-            <h1 className="font-heading font-bold text-2xl text-foreground mb-4">Yazi bulunamadi</h1>
-            <Link to="/blog" className="text-primary hover:underline">Blog sayfasina don</Link>
+            <h1 className="font-heading font-bold text-2xl text-foreground mb-4">Yazı bulunamadı</h1>
+            <Link to="/blog" className="text-primary hover:underline">Blog sayfasına dön</Link>
           </div>
         </section>
       </Layout>
@@ -81,11 +81,11 @@ const BlogDetay = () => {
     dateModified: post.updated_at,
     author: {
       "@type": "Organization",
-      name: "Pasa Motor",
+      name: "Paşa Motor",
     },
     publisher: {
       "@type": "Organization",
-      name: "Pasa Motor",
+      name: "Paşa Motor",
       url: "https://pasamotor.com.tr",
     },
   };
@@ -97,7 +97,7 @@ const BlogDetay = () => {
         <div className="container mx-auto px-4 max-w-3xl">
           <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
             <ArrowLeft className="w-4 h-4" />
-            Blog'a Don
+            Blog'a Dön
           </Link>
 
           <h1 className="font-heading font-bold text-3xl md:text-5xl text-foreground mb-4">
