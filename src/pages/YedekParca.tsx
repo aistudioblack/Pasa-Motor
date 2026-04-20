@@ -50,7 +50,7 @@ const YedekParca = () => {
               Yedek Parça
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              TVS, Hero, Falcon ve Işıldar motosikletleri icin orijinal ve muadil yedek parcalar. Genis stok ve hizli temin.
+              TVS, Hero, Falcon ve Işıldar motosikletleri için orijinal ve muadil yedek parçalar. Geniş stok ve hızlı temin.
             </p>
           </div>
 
@@ -62,7 +62,7 @@ const YedekParca = () => {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Yedek parca ara..."
+                placeholder="Yedek parça ara..."
                 className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-muted border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
               />
             </div>
@@ -135,9 +135,9 @@ const YedekParca = () => {
           ) : (
             <div className="text-center py-16">
               <Package className="w-16 h-16 mx-auto text-muted-foreground/30 mb-4" />
-              <p className="text-muted-foreground text-lg mb-2">Henuz yedek parca eklenmedi</p>
+              <p className="text-muted-foreground text-lg mb-2">Henüz yedek parça eklenmedi</p>
               <p className="text-sm text-muted-foreground">
-                Yedek parca icin bizi arayabilirsiniz:{" "}
+                Yedek parça için bizi arayabilirsiniz:{" "}
                 <a href="tel:+905348996817" className="text-primary hover:underline">
                   0534 899 68 17
                 </a>

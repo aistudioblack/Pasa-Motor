@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/pasa-motor-logo.png";
 
 const navLinks = [
   { label: "Ana Sayfa", path: "/" },
-  { label: "Hakkimizda", path: "/hakkimizda" },
+  { label: "Hakkımızda", path: "/hakkimizda" },
   { label: "Hizmetler", path: "/hizmetler" },
-  { label: "Yedek Parca", path: "/yedek-parca" },
+  { label: "Yedek Parça", path: "/yedek-parca" },
   { label: "Blog", path: "/blog" },
   { label: "Galeri", path: "/galeri" },
-  { label: "Iletisim", path: "/iletisim" },
+  { label: "İletişim", path: "/iletisim" },
 ];
 
 const Header = () => {
@@ -22,10 +22,10 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="Pasa Motor" className="h-10 md:h-12 w-auto" />
+            <img src={logo} alt="Paşa Motor" className="h-10 md:h-12 w-auto" />
             <div className="hidden sm:block">
               <span className="font-heading font-bold text-lg leading-tight block text-foreground">
-                Pasa Motor
+                Paşa Motor
               </span>
               <span className="text-xs text-muted-foreground">Yetkili Bayii</span>
             </div>
@@ -58,7 +58,7 @@ const Header = () => {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="lg:hidden p-2 text-foreground"
-              aria-label="Menuyu ac"
+              aria-label="Menüyü aç"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

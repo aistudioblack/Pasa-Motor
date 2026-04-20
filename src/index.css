@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap&subset=latin,latin-ext');
 
 @tailwind base;
 @tailwind components;
@@ -123,6 +123,42 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground));
+}
+
+/* Logo animations */
+@keyframes float-logo {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 20px hsl(45 90% 55% / 0.4)) drop-shadow(0 0 40px hsl(0 85% 55% / 0.2)); }
+  50% { filter: drop-shadow(0 0 35px hsl(45 90% 55% / 0.7)) drop-shadow(0 0 60px hsl(0 85% 55% / 0.4)); }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) skewX(-20deg); }
+  100% { transform: translateX(200%) skewX(-20deg); }
+}
+
+.animate-float-logo {
+  animation: float-logo 6s ease-in-out infinite, glow-pulse 4s ease-in-out infinite;
+}
+
+.logo-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.25), transparent);
+  animation: shine 3.5s ease-in-out infinite;
 }
 
 /* Animations */

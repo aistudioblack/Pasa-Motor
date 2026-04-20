@@ -12,7 +12,7 @@ const Iletisim = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim() || !form.subject.trim() || !form.message.trim()) {
-      toast({ title: "Hata", description: "Lutfen tum alanlari doldurun.", variant: "destructive" });
+      toast({ title: "Hata", description: "Lütfen tüm alanları doldurun.", variant: "destructive" });
       return;
     }
     setSending(true);
@@ -25,9 +25,9 @@ const Iletisim = () => {
     setSending(false);
 
     if (error) {
-      toast({ title: "Hata", description: "Mesaj gonderilemedi. Lutfen tekrar deneyin.", variant: "destructive" });
+      toast({ title: "Hata", description: "Mesaj gönderilemedi. Lütfen tekrar deneyin.", variant: "destructive" });
     } else {
-      toast({ title: "Mesajiniz alindi!", description: "En kisa surede size donus yapacagiz." });
+      toast({ title: "Mesajınız alındı!", description: "En kısa sürede size dönüş yapacağız." });
       setForm({ name: "", phone: "", subject: "", message: "" });
     }
   };
@@ -37,14 +37,14 @@ const Iletisim = () => {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h1 className="font-heading font-bold text-3xl md:text-5xl text-foreground mb-4">Iletisim</h1>
-            <p className="text-lg text-muted-foreground">Bize ulasmak icin asagidaki kanallari kullanabilirsiniz.</p>
+            <h1 className="font-heading font-bold text-3xl md:text-5xl text-foreground mb-4">İletişim</h1>
+            <p className="text-lg text-muted-foreground">Bize ulaşmak için aşağıdaki kanalları kullanabilirsiniz.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div className="space-y-6">
               <div className="glass-card rounded-xl p-6">
-                <h2 className="font-heading font-semibold text-lg text-foreground mb-4">Iletisim Bilgileri</h2>
+                <h2 className="font-heading font-semibold text-lg text-foreground mb-4">İletişim Bilgileri</h2>
                 <div className="space-y-4">
                   <a href="tel:+902125868598" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
                     <Phone className="w-5 h-5 shrink-0" />
@@ -71,14 +71,14 @@ const Iletisim = () => {
                     <MapPin className="w-5 h-5 shrink-0 mt-0.5" />
                     <div>
                       <p className="text-sm text-foreground font-medium">Adres</p>
-                      <p className="text-sm">Kizilelma Cad. No:66/A K.M.Pasa - Fatih/IST.</p>
+                      <p className="text-sm">Kızılelma Cad. No:66/A K.M.Paşa - Fatih/İST.</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 text-muted-foreground">
                     <Clock className="w-5 h-5 shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-foreground font-medium">Calisma Saatleri</p>
-                      <p className="text-sm">HI: 09:00-19:00 | Cmt: 09:00-17:00 | Paz: Kapali</p>
+                      <p className="text-sm text-foreground font-medium">Çalışma Saatleri</p>
+                      <p className="text-sm">Hİ: 09:00-19:00 | Cmt: 09:00-17:00 | Paz: Kapalı</p>
                     </div>
                   </div>
                 </div>
@@ -92,7 +92,7 @@ const Iletisim = () => {
                 style={{ backgroundColor: "#25D366", color: "#fff" }}
               >
                 <MessageCircle className="w-5 h-5" />
-                WhatsApp ile Iletisime Gecin
+                WhatsApp ile İletişime Geçin
               </a>
 
               <div className="rounded-xl overflow-hidden h-64">
@@ -104,13 +104,13 @@ const Iletisim = () => {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Pasa Motor Konum"
+                  title="Paşa Motor Konum"
                 />
               </div>
             </div>
 
             <div className="glass-card rounded-xl p-6 md:p-8">
-              <h2 className="font-heading font-semibold text-lg text-foreground mb-6">Bize Mesaj Gonderin</h2>
+              <h2 className="font-heading font-semibold text-lg text-foreground mb-6">Bize Mesaj Gönderin</h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-foreground mb-1.5 block">Ad Soyad</label>
@@ -121,7 +121,7 @@ const Iletisim = () => {
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-lg bg-muted border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-                    placeholder="Adiniz Soyadiniz"
+                    placeholder="Adınız Soyadınız"
                   />
                 </div>
                 <div>
@@ -149,7 +149,7 @@ const Iletisim = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">Mesajiniz</label>
+                  <label className="text-sm font-medium text-foreground mb-1.5 block">Mesajınız</label>
                   <textarea
                     required
                     rows={4}
@@ -157,7 +157,7 @@ const Iletisim = () => {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-lg bg-muted border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
-                    placeholder="Mesajinizi yazin..."
+                    placeholder="Mesajınızı yazın..."
                   />
                 </div>
                 <button
@@ -166,7 +166,7 @@ const Iletisim = () => {
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
-                  {sending ? "Gonderiliyor..." : "Gonder"}
+                  {sending ? "Gönderiliyor..." : "Gönder"}
                 </button>
               </form>
             </div>
