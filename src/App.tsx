@@ -13,6 +13,13 @@ import YedekParcaDetay from "./pages/YedekParcaDetay.tsx";
 import Blog from "./pages/Blog.tsx";
 import BlogDetay from "./pages/BlogDetay.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import AdminLogin from "./pages/admin/AdminLogin.tsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
+import AdminProducts from "./pages/admin/AdminProducts.tsx";
+import AdminPosts from "./pages/admin/AdminPosts.tsx";
+import AdminMessages from "./pages/admin/AdminMessages.tsx";
+import AdminGallery from "./pages/admin/AdminGallery.tsx";
+import AdminFAQ from "./pages/admin/AdminFAQ.tsx";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +39,13 @@ const App = () => (
           <Route path="/yedek-parca/:slug" element={<YedekParcaDetay />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogDetay />} />
+          <Route path="/admin/giris" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/urunler" element={<AdminProducts />} />
+          <Route path="/admin/blog" element={<AdminPosts />} />
+          <Route path="/admin/mesajlar" element={<AdminMessages />} />
+          <Route path="/admin/galeri" element={<AdminGallery />} />
+          <Route path="/admin/faq" element={<AdminFAQ />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
