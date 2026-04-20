@@ -28,13 +28,13 @@ const HeroSection = () => {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-medium text-muted-foreground mb-6 animate-fade-in">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              TVS • Hero • Falcon • Işıldar Yetkili Bayii
+              TVS • Hero • Falcon • Işıldar Yetkili Servis Bayi
             </div>
 
             <h1 className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 animate-fade-in text-foreground" style={{ animationDelay: "0.1s" }}>
               İstanbul'un Güvenilir{" "}
               <span className="gradient-text">Motosiklet</span>{" "}
-              Yetkili Bayii
+              Yetkili Servis Bayi
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
