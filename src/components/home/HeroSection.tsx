@@ -1,9 +1,55 @@
 import { ChevronRight, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
 import logo from "@/assets/pasa-motor-logo.png";
 
 const HeroSection = () => {
+  const desktopLogoRef = useRef<HTMLDivElement>(null);
+  const mobileLogoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ANIM_CLASS = "animate-logo-tornado";
+    const ANIM_DURATION_MS = 8000;
+    let timeoutId: number | undefined;
+
+    const triggerOnce = () => {
+      if (document.hidden) {
+        scheduleNext();
+        return;
+      }
+      const targets = [desktopLogoRef.current, mobileLogoRef.current].filter(
+        (el): el is HTMLDivElement => !!el,
+      );
+      targets.forEach((el) => {
+        el.classList.remove(ANIM_CLASS);
+        void el.offsetWidth; // restart animation cleanly
+        el.classList.add(ANIM_CLASS);
+        const cleanup = () => {
+          el.classList.remove(ANIM_CLASS);
+          el.removeEventListener("animationend", cleanup);
+        };
+        el.addEventListener("animationend", cleanup);
+      });
+      window.setTimeout(scheduleNext, ANIM_DURATION_MS + 100);
+    };
+
+    const scheduleNext = () => {
+      // Random 1–5 minutes
+      const delay = (60 + Math.random() * 240) * 1000;
+      timeoutId = window.setTimeout(triggerOnce, delay);
+    };
+
+    // Initial random delay — no animation on page load
+    scheduleNext();
+
+    return () => {
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, []);
+
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden">
       {/* Background */}
