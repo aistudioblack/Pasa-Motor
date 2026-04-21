@@ -21,13 +21,22 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 glass">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="Paşa Motor" className="h-10 md:h-12 w-auto" />
-            <div className="hidden sm:block">
-              <span className="font-heading font-bold text-lg leading-tight block text-foreground">
-                Paşa Motor
+          <Link to="/" className="flex items-center gap-3 group">
+            <img
+              src={logo}
+              alt="Paşa Motor"
+              className="h-11 md:h-14 w-auto drop-shadow-[0_4px_12px_hsl(0_85%_55%/0.35)] transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="hidden sm:block leading-tight">
+              <span className="font-heading font-extrabold text-xl md:text-2xl block tracking-tight">
+                <span className="bg-gradient-to-r from-primary via-amber-400 to-secondary bg-clip-text text-transparent">
+                  PAŞA
+                </span>{" "}
+                <span className="text-foreground">MOTOR</span>
               </span>
-              <span className="text-xs text-muted-foreground">Yetkili Servis Bayi</span>
+              <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                Yetkili Servis Bayi
+              </span>
             </div>
           </Link>
 

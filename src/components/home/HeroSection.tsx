@@ -73,18 +73,15 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right: Animated Logo */}
+          {/* Right: Animated Logo (transparent, tornado loop every 5 min) */}
           <div className="hidden lg:flex items-center justify-center relative min-h-[480px]">
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-96 h-96 rounded-full bg-primary/20 blur-3xl animate-pulse" />
-            </div>
-            <div className="relative animate-logo-hero logo-shine">
+            <div className="relative animate-logo-hero">
               <img
                 src={logo}
                 alt="Paşa Motor logosu"
                 width={520}
                 height={520}
-                className="relative w-full max-w-md"
+                className="relative w-full max-w-md drop-shadow-2xl"
               />
             </div>
           </div>
@@ -92,8 +89,8 @@ const HeroSection = () => {
 
         {/* Mobile logo */}
         <div className="lg:hidden flex justify-center mt-12">
-          <div className="relative animate-logo-hero logo-shine">
-            <img src={logo} alt="Paşa Motor logosu" width={260} height={260} className="w-56 h-auto" />
+          <div className="relative animate-logo-hero">
+            <img src={logo} alt="Paşa Motor logosu" width={260} height={260} className="w-56 h-auto drop-shadow-2xl" />
           </div>
         </div>
       </div>
