@@ -5,7 +5,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+const AI_GATEWAY_KEY = Deno.env.get("LOVABLE_API_KEY"); // Lovable AI Gateway credential (env-only, not exposed)
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
