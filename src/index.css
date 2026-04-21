@@ -125,39 +125,44 @@ html {
   background: hsl(var(--muted-foreground));
 }
 
-/* Tornado / Tasmanian devil style logo loop — runs every 5 minutes (300s) */
+/* Tornado / Tasmanian devil style logo animation — triggered by JS at random 1-5 min intervals */
 @keyframes logo-tornado {
-  /* Idle phase — most of the 5-minute cycle */
-  0%, 90%   { transform: translate(0,0) scale(1) rotate(0deg) skewX(0deg); }
+  /* Wind-up wobble */
+  0%   { transform: translate(0,0) scale(1) rotate(0deg) skewX(0deg); }
+  3%   { transform: translate(-5px,0) scale(1.02) rotate(-10deg) skewX(-2deg); }
+  6%   { transform: translate(5px,0) scale(1.04) rotate(15deg) skewX(2deg); }
 
-  /* Tornado wind-up — starts wobbling */
-  91%       { transform: translate(-4px,0) scale(1) rotate(-8deg) skewX(-2deg); }
-  92%       { transform: translate(4px,0) scale(1.02) rotate(12deg) skewX(2deg); }
-
-  /* Tornado spin-up — chaotic Tasmanian devil whirl, multiple full spins, horizontal squish */
-  93%       { transform: translate(-6px,2px) scale(1.05, 0.85) rotate(180deg) skewX(-6deg); }
-  93.5%     { transform: translate(8px,-3px) scale(0.85, 1.1) rotate(540deg) skewX(6deg); }
-  94%       { transform: translate(-10px,4px) scale(1.1, 0.8) rotate(900deg) skewX(-8deg); }
-  94.5%     { transform: translate(12px,-2px) scale(0.8, 1.15) rotate(1260deg) skewX(8deg); }
-  95%       { transform: translate(-8px,3px) scale(1.15, 0.85) rotate(1620deg) skewX(-6deg); }
-  95.5%     { transform: translate(6px,-4px) scale(0.9, 1.1) rotate(1980deg) skewX(4deg); }
+  /* Tornado spin — multiple full whirls, horizontal squish like Tasmanian devil */
+  10%  { transform: translate(-8px,3px) scale(1.05, 0.85) rotate(360deg) skewX(-8deg); }
+  16%  { transform: translate(10px,-4px) scale(0.85, 1.1) rotate(900deg) skewX(8deg); }
+  22%  { transform: translate(-12px,5px) scale(1.1, 0.8) rotate(1440deg) skewX(-10deg); }
+  28%  { transform: translate(14px,-3px) scale(0.8, 1.15) rotate(1980deg) skewX(10deg); }
+  34%  { transform: translate(-10px,4px) scale(1.15, 0.85) rotate(2520deg) skewX(-8deg); }
+  40%  { transform: translate(8px,-5px) scale(0.9, 1.1) rotate(3060deg) skewX(6deg); }
 
   /* Massive zoom toward viewer while still spinning */
-  96%       { transform: translate(0,0) scale(1.4) rotate(2340deg) skewX(0deg); }
-  96.8%     { transform: translate(0,0) scale(2.4) rotate(2700deg) skewX(0deg); }
-  97.4%     { transform: translate(0,0) scale(3.2) rotate(3060deg) skewX(0deg); }
+  50%  { transform: translate(0,0) scale(1.6) rotate(3420deg) skewX(0deg); }
+  60%  { transform: translate(0,0) scale(2.6) rotate(3780deg) skewX(0deg); }
+  68%  { transform: translate(0,0) scale(3.4) rotate(4140deg) skewX(0deg); }
 
-  /* Slow ease back to original size & rotation */
-  98.2%     { transform: translate(0,0) scale(2) rotate(3240deg) skewX(0deg); }
-  99%       { transform: translate(0,0) scale(1.25) rotate(3360deg) skewX(0deg); }
-  99.6%     { transform: translate(0,0) scale(1.05) rotate(3420deg) skewX(0deg); }
-  100%      { transform: translate(0,0) scale(1) rotate(3600deg) skewX(0deg); }
+  /* Slow ease back */
+  78%  { transform: translate(0,0) scale(2.2) rotate(4320deg) skewX(0deg); }
+  88%  { transform: translate(0,0) scale(1.4) rotate(4440deg) skewX(0deg); }
+  95%  { transform: translate(0,0) scale(1.08) rotate(4500deg) skewX(0deg); }
+  100% { transform: translate(0,0) scale(1) rotate(4500deg) skewX(0deg); }
 }
 
-.animate-logo-hero {
-  animation: logo-tornado 300s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+.animate-logo-tornado {
+  animation: logo-tornado 8s cubic-bezier(0.22, 1, 0.36, 1) 1;
   transform-origin: center center;
   will-change: transform;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-logo-tornado {
+    animation: none !important;
+  }
 }
 
 /* Animations */
