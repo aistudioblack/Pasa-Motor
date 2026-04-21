@@ -119,24 +119,25 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right: Animated Logo (transparent, tornado loop every 5 min) */}
-          <div className="hidden lg:flex items-center justify-center relative min-h-[480px]">
-            <div className="relative animate-logo-hero">
+          {/* Right: Animated Logo (transparent, tornado triggered randomly every 1-5 min) */}
+          <div className="hidden lg:flex items-center justify-center relative min-h-[480px] overflow-visible">
+            <div ref={desktopLogoRef} className="relative will-change-transform">
               <img
                 src={logo}
                 alt="Paşa Motor logosu"
                 width={520}
                 height={520}
-                className="relative w-full max-w-md drop-shadow-2xl"
+                className="relative w-full max-w-md drop-shadow-2xl select-none pointer-events-none"
+                draggable={false}
               />
             </div>
           </div>
         </div>
 
         {/* Mobile logo */}
-        <div className="lg:hidden flex justify-center mt-12">
-          <div className="relative animate-logo-hero">
-            <img src={logo} alt="Paşa Motor logosu" width={260} height={260} className="w-56 h-auto drop-shadow-2xl" />
+        <div className="lg:hidden flex justify-center mt-12 overflow-visible">
+          <div ref={mobileLogoRef} className="relative will-change-transform">
+            <img src={logo} alt="Paşa Motor logosu" width={260} height={260} className="w-56 h-auto drop-shadow-2xl select-none pointer-events-none" draggable={false} />
           </div>
         </div>
       </div>
