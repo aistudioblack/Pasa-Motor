@@ -125,75 +125,39 @@ html {
   background: hsl(var(--muted-foreground));
 }
 
-/* Logo intro + loop animation sequence: jump out of box → spin → heartbeat → settle */
-@keyframes logo-sequence {
-  /* Box pop-in */
-  0%   { transform: translateY(120px) scale(0.2) rotate(0deg); opacity: 0; }
-  8%   { transform: translateY(-40px) scale(1.15) rotate(-8deg); opacity: 1; }
-  14%  { transform: translateY(10px) scale(0.92) rotate(6deg); }
-  20%  { transform: translateY(0) scale(1) rotate(0deg); }
+/* Tornado / Tasmanian devil style logo loop — runs every 5 minutes (300s) */
+@keyframes logo-tornado {
+  /* Idle phase — most of the 5-minute cycle */
+  0%, 90%   { transform: translate(0,0) scale(1) rotate(0deg) skewX(0deg); }
 
-  /* Tornado / hose spin */
-  22%  { transform: translateY(0) scale(1) rotate(0deg); }
-  38%  { transform: translateY(-8px) scale(1.05) rotate(360deg); }
-  44%  { transform: translateY(0) scale(1) rotate(720deg); }
+  /* Tornado wind-up — starts wobbling */
+  91%       { transform: translate(-4px,0) scale(1) rotate(-8deg) skewX(-2deg); }
+  92%       { transform: translate(4px,0) scale(1.02) rotate(12deg) skewX(2deg); }
 
-  /* Heartbeat */
-  48%  { transform: scale(1) rotate(720deg); }
-  52%  { transform: scale(1.12) rotate(720deg); }
-  56%  { transform: scale(0.96) rotate(720deg); }
-  60%  { transform: scale(1.1) rotate(720deg); }
-  64%  { transform: scale(1) rotate(720deg); }
+  /* Tornado spin-up — chaotic Tasmanian devil whirl, multiple full spins, horizontal squish */
+  93%       { transform: translate(-6px,2px) scale(1.05, 0.85) rotate(180deg) skewX(-6deg); }
+  93.5%     { transform: translate(8px,-3px) scale(0.85, 1.1) rotate(540deg) skewX(6deg); }
+  94%       { transform: translate(-10px,4px) scale(1.1, 0.8) rotate(900deg) skewX(-8deg); }
+  94.5%     { transform: translate(12px,-2px) scale(0.8, 1.15) rotate(1260deg) skewX(8deg); }
+  95%       { transform: translate(-8px,3px) scale(1.15, 0.85) rotate(1620deg) skewX(-6deg); }
+  95.5%     { transform: translate(6px,-4px) scale(0.9, 1.1) rotate(1980deg) skewX(4deg); }
 
-  /* Slow settle / float */
-  80%  { transform: translateY(-10px) scale(1.02) rotate(720deg); }
-  100% { transform: translateY(0) scale(1) rotate(720deg); }
-}
+  /* Massive zoom toward viewer while still spinning */
+  96%       { transform: translate(0,0) scale(1.4) rotate(2340deg) skewX(0deg); }
+  96.8%     { transform: translate(0,0) scale(2.4) rotate(2700deg) skewX(0deg); }
+  97.4%     { transform: translate(0,0) scale(3.2) rotate(3060deg) skewX(0deg); }
 
-@keyframes logo-glow {
-  0%, 100% { filter: drop-shadow(0 10px 25px hsl(0 85% 55% / 0.35)) drop-shadow(0 0 30px hsl(0 85% 55% / 0.25)); }
-  50%      { filter: drop-shadow(0 15px 40px hsl(0 85% 55% / 0.55)) drop-shadow(0 0 60px hsl(215 80% 55% / 0.35)); }
-}
-
-@keyframes logo-shine-sweep {
-  0%   { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
-  10%  { opacity: 1; }
-  60%  { opacity: 1; }
-  100% { transform: translateX(250%) skewX(-25deg); opacity: 0; }
+  /* Slow ease back to original size & rotation */
+  98.2%     { transform: translate(0,0) scale(2) rotate(3240deg) skewX(0deg); }
+  99%       { transform: translate(0,0) scale(1.25) rotate(3360deg) skewX(0deg); }
+  99.6%     { transform: translate(0,0) scale(1.05) rotate(3420deg) skewX(0deg); }
+  100%      { transform: translate(0,0) scale(1) rotate(3600deg) skewX(0deg); }
 }
 
 .animate-logo-hero {
-  animation: logo-sequence 7s cubic-bezier(0.33, 1, 0.68, 1) infinite, logo-glow 3.5s ease-in-out infinite;
+  animation: logo-tornado 300s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   transform-origin: center center;
-  will-change: transform, filter;
-}
-
-.logo-shine {
-  position: relative;
-  overflow: hidden;
-  border-radius: 1.25rem;
-  isolation: isolate;
-}
-
-.logo-shine::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40%;
-  height: 100%;
-  background: linear-gradient(
-    100deg,
-    transparent 0%,
-    hsl(0 0% 100% / 0.05) 30%,
-    hsl(0 0% 100% / 0.45) 50%,
-    hsl(0 0% 100% / 0.05) 70%,
-    transparent 100%
-  );
-  mix-blend-mode: screen;
-  pointer-events: none;
-  animation: logo-shine-sweep 5s ease-in-out infinite;
-  animation-delay: 1.5s;
+  will-change: transform;
 }
 
 /* Animations */
