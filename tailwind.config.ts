@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         heading: ["Outfit", "sans-serif"],
         body: ["Inter", "sans-serif"],
+        display: ['"Russo One"', "Outfit", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

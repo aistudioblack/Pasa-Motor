@@ -13,19 +13,27 @@ const JsonLd = ({ data }: JsonLdProps) => {
 
 export default JsonLd;
 
+// LocalBusiness + MotorcycleDealer combined schema (rich for Google + AI engines)
 export const motorcycleDealerSchema = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "MotorcycleDealer",
+      "@type": ["MotorcycleDealer", "LocalBusiness", "Store", "AutomotiveBusiness"],
       "@id": "https://pasamotor.com.tr/#organization",
       name: "Paşa Motor",
+      alternateName: ["Paşa Motor Yetkili Servis Bayi", "Pasa Motor"],
+      description:
+        "İstanbul Fatih'te TVS, Hero, Falcon ve Işıldar markalarının yetkili satış ve servis bayi. 20+ yıllık deneyim ile motosiklet satış, profesyonel servis ve orijinal yedek parça.",
       url: "https://pasamotor.com.tr",
+      logo: "https://pasamotor.com.tr/favicon.png",
+      image: "https://pasamotor.com.tr/favicon.png",
       telephone: ["+902125868598", "+905348996817"],
       email: "pasamotor@gmail.com",
+      foundingDate: "2003",
+      slogan: "İstanbul'un Güvenilir Motosiklet Yetkili Servis Bayi",
       address: {
         "@type": "PostalAddress",
-        streetAddress: "Kızılelma Cad. No:66/A",
+        streetAddress: "Kızılelma Cad. No:66/A Kocamustafapaşa",
         addressLocality: "Fatih",
         addressRegion: "İstanbul",
         postalCode: "34104",
@@ -36,11 +44,21 @@ export const motorcycleDealerSchema = {
         latitude: "41.0085",
         longitude: "28.9265",
       },
+      hasMap: "https://www.google.com/maps/search/?api=1&query=Pa%C5%9Fa+Motor+Kocamustafapa%C5%9Fa+Fatih",
+      areaServed: [
+        { "@type": "City", name: "İstanbul" },
+        { "@type": "AdministrativeArea", name: "Fatih" },
+      ],
       brand: [
         { "@type": "Brand", name: "TVS" },
         { "@type": "Brand", name: "Hero" },
         { "@type": "Brand", name: "Falcon" },
         { "@type": "Brand", name: "Işıldar" },
+      ],
+      makesOffer: [
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Motosiklet Satışı" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Motosiklet Servisi" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Orijinal Yedek Parça" } },
       ],
       openingHoursSpecification: [
         {
@@ -56,13 +74,25 @@ export const motorcycleDealerSchema = {
           closes: "17:00",
         },
       ],
-      priceRange: "$$",
+      sameAs: [
+        "https://www.google.com/maps/search/?api=1&query=Pa%C5%9Fa+Motor+Kocamustafapa%C5%9Fa+Fatih",
+      ],
+      priceRange: "₺₺",
+      currenciesAccepted: "TRY",
+      paymentAccepted: "Cash, Credit Card",
     },
     {
       "@type": "WebSite",
       "@id": "https://pasamotor.com.tr/#website",
-      name: "Paşa Motor • İstanbul Fatih Motosiklet Yetkili Servis Bayi",
+      name: "Paşa Motor",
       url: "https://pasamotor.com.tr",
+      inLanguage: "tr-TR",
+      publisher: { "@id": "https://pasamotor.com.tr/#organization" },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://pasamotor.com.tr/yedek-parca?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
     },
   ],
 };
