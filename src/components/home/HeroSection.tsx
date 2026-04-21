@@ -12,12 +12,13 @@ const HeroSection = () => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ANIM_CLASS = "animate-logo-tornado";
-    const ANIM_DURATION_MS = 8000;
+    const ANIM_DURATION_MS = 7000;
+    const INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
     let timeoutId: number | undefined;
 
     const triggerOnce = () => {
       if (document.hidden) {
-        scheduleNext();
+        scheduleNext(INTERVAL_MS);
         return;
       }
       const targets = [desktopLogoRef.current, mobileLogoRef.current].filter(
@@ -27,25 +28,19 @@ const HeroSection = () => {
         el.classList.remove(ANIM_CLASS);
         void el.offsetWidth; // restart animation cleanly
         el.classList.add(ANIM_CLASS);
-        const cleanup = () => {
-          el.classList.remove(ANIM_CLASS);
-          el.removeEventListener("animationend", cleanup);
-        };
-        el.addEventListener("animationend", cleanup);
       });
-      window.setTimeout(scheduleNext, ANIM_DURATION_MS + 100);
+      scheduleNext(INTERVAL_MS);
     };
 
-    const scheduleNext = () => {
-      // Random 1–5 minutes
-      const delay = (60 + Math.random() * 240) * 1000;
+    const scheduleNext = (delay: number) => {
       timeoutId = window.setTimeout(triggerOnce, delay);
     };
 
-    // Initial random delay — no animation on page load
-    scheduleNext();
+    // Run immediately on first load (after a tiny delay so layout is ready)
+    const initial = window.setTimeout(triggerOnce, 600);
 
     return () => {
+      window.clearTimeout(initial);
       if (timeoutId) window.clearTimeout(timeoutId);
     };
   }, []);
