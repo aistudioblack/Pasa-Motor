@@ -1,18 +1,39 @@
 import { ChevronRight, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
 import logo from "@/assets/pasa-motor-logo.png";
+import { supabase } from "@/integrations/supabase/client";
+import { DEFAULT_ANIMATION_ID, getAnimationById } from "@/lib/logoAnimations";
 
 const HeroSection = () => {
   const desktopLogoRef = useRef<HTMLDivElement>(null);
   const mobileLogoRef = useRef<HTMLDivElement>(null);
+  const [animationId, setAnimationId] = useState<string>(DEFAULT_ANIMATION_ID);
+
+  // Load selected animation from site_content
+  useEffect(() => {
+    let active = true;
+    supabase
+      .from("site_content")
+      .select("sections")
+      .eq("page_key", "hero_animation")
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active) return;
+        const id = (data?.sections as any)?.animation_id;
+        if (typeof id === "string") setAnimationId(id);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ANIM_CLASS = "animate-logo-tornado";
-    const ANIM_DURATION_MS = 7000;
+    const anim = getAnimationById(animationId);
+    const ANIM_CLASS = anim.className;
     const INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
     let timeoutId: number | undefined;
 
@@ -25,7 +46,10 @@ const HeroSection = () => {
         (el): el is HTMLDivElement => !!el,
       );
       targets.forEach((el) => {
-        el.classList.remove(ANIM_CLASS);
+        // Remove any prior logo-animation classes
+        Array.from(el.classList)
+          .filter((c) => c.startsWith("animate-logo-"))
+          .forEach((c) => el.classList.remove(c));
         void el.offsetWidth; // restart animation cleanly
         el.classList.add(ANIM_CLASS);
       });
@@ -36,14 +60,14 @@ const HeroSection = () => {
       timeoutId = window.setTimeout(triggerOnce, delay);
     };
 
-    // Run immediately on first load (after a tiny delay so layout is ready)
+    // Run immediately on first load
     const initial = window.setTimeout(triggerOnce, 600);
 
     return () => {
       window.clearTimeout(initial);
       if (timeoutId) window.clearTimeout(timeoutId);
     };
-  }, []);
+  }, [animationId]);
 
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden">
@@ -114,7 +138,7 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right: Animated Logo (transparent, tornado triggered randomly every 1-5 min) */}
+          {/* Right: Animated Logo */}
           <div className="hidden lg:flex items-center justify-center relative min-h-[480px] overflow-visible">
             <div ref={desktopLogoRef} className="relative will-change-transform">
               <img
