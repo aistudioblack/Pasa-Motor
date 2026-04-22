@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_logs: {
+        Row: {
+          action: string
+          actor_user_id: string
+          created_at: string
+          details: Json
+          entity_id: string | null
+          entity_slug: string | null
+          entity_type: string
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_user_id: string
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_slug?: string | null
+          entity_type: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_user_id?: string
+          created_at?: string
+          details?: Json
+          entity_id?: string | null
+          entity_slug?: string | null
+          entity_type?: string
+          id?: string
+        }
+        Relationships: []
+      }
       faqs: {
         Row: {
           answer: string
@@ -199,6 +232,48 @@ export type Database = {
           price?: number | null
           slug?: string
           title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          body: string | null
+          created_at: string
+          hero_image: string | null
+          id: string
+          page_key: string
+          sections: Json
+          seo_description: string | null
+          seo_title: string | null
+          subtitle: string | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          hero_image?: string | null
+          id?: string
+          page_key: string
+          sections?: Json
+          seo_description?: string | null
+          seo_title?: string | null
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          hero_image?: string | null
+          id?: string
+          page_key?: string
+          sections?: Json
+          seo_description?: string | null
+          seo_title?: string | null
+          subtitle?: string | null
+          title?: string | null
           updated_at?: string
         }
         Relationships: []
