@@ -5,11 +5,14 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Lock, Mail } from "lucide-react";
 import logo from "@/assets/pasa-motor-logo.png";
 
+const REMEMBER_KEY = "pm_admin_remember";
+
 const AdminLogin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -22,6 +25,12 @@ const AdminLogin = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      // Store remember preference (used only to inform UX; Supabase session itself
+      // persists in localStorage by default and clears on signOut).
+      try {
+        localStorage.setItem(REMEMBER_KEY, remember ? "1" : "0");
+      } catch {}
+
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       toast({ title: "Giriş başarılı", description: "Yönlendiriliyorsunuz..." });
@@ -44,7 +53,7 @@ const AdminLogin = () => {
 
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
-          <img src={logo} alt="Paşa Motor" className="w-24 h-auto mx-auto mb-4 animate-float-logo" />
+          <img src={logo} alt="Paşa Motor" className="w-24 h-auto mx-auto mb-4" />
           <h1 className="font-heading font-bold text-2xl text-foreground">Yönetim Paneli</h1>
           <p className="text-sm text-muted-foreground mt-1">Paşa Motor admin girişi</p>
         </div>
@@ -58,10 +67,11 @@ const AdminLogin = () => {
                 <input
                   type="email"
                   required
+                  autoComplete="username"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-muted border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  placeholder="admin@pasamotor.com.tr"
+                  placeholder="E-posta adresiniz"
                 />
               </div>
             </div>
@@ -74,6 +84,7 @@ const AdminLogin = () => {
                   type="password"
                   required
                   minLength={6}
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-muted border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
@@ -81,6 +92,16 @@ const AdminLogin = () => {
                 />
               </div>
             </div>
+
+            <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+                className="w-4 h-4 rounded border-border bg-muted accent-primary"
+              />
+              Beni hatırla
+            </label>
 
             <button
               type="submit"

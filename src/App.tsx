@@ -20,6 +20,8 @@ import AdminPosts from "./pages/admin/AdminPosts.tsx";
 import AdminMessages from "./pages/admin/AdminMessages.tsx";
 import AdminGallery from "./pages/admin/AdminGallery.tsx";
 import AdminFAQ from "./pages/admin/AdminFAQ.tsx";
+import AdminAnimations from "./pages/admin/AdminAnimations.tsx";
+import AdminSettings from "./pages/admin/AdminSettings.tsx";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +48,8 @@ const App = () => (
           <Route path="/admin/mesajlar" element={<AdminMessages />} />
           <Route path="/admin/galeri" element={<AdminGallery />} />
           <Route path="/admin/faq" element={<AdminFAQ />} />
+          <Route path="/admin/animasyonlar" element={<AdminAnimations />} />
+          <Route path="/admin/ayarlar" element={<AdminSettings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
