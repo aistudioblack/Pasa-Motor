@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Calendar, BookOpen } from "lucide-react";
 import JsonLd from "@/components/seo/JsonLd";
+import { sanitizeHtml } from "@/lib/sanitize";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Post = Tables<"posts">;
@@ -120,7 +121,7 @@ const BlogDetay = () => {
           {post.content && (
             <div
               className="prose prose-invert prose-lg max-w-none text-muted-foreground [&_h2]:text-foreground [&_h3]:text-foreground [&_strong]:text-foreground [&_a]:text-primary"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
             />
           )}
         </div>

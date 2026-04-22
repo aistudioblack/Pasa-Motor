@@ -1,11 +1,14 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const AI_GATEWAY_KEY = Deno.env.get("LOVABLE_API_KEY"); // Lovable AI Gateway credential (env-only, not exposed)
+const AI_GATEWAY_KEY = Deno.env.get("LOVABLE_API_KEY");
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -13,9 +16,40 @@ serve(async (req) => {
   }
 
   try {
+    // --- Auth: require valid JWT + admin role ---
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: { headers: { Authorization: authHeader } },
+    });
+
+    const token = authHeader.replace("Bearer ", "");
+    const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const userId = claimsData.claims.sub;
+    const { data: isAdmin, error: roleError } = await supabase.rpc("has_role", {
+      _user_id: userId,
+      _role: "admin",
+    });
+    if (roleError || !isAdmin) {
+      return new Response(JSON.stringify({ error: "Forbidden: admin role required" }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const { topic } = await req.json();
-    if (!topic || typeof topic !== "string") {
-      return new Response(JSON.stringify({ error: "topic gerekli" }), {
+    if (!topic || typeof topic !== "string" || topic.length > 500) {
+      return new Response(JSON.stringify({ error: "Geçerli bir konu gerekli (max 500 karakter)" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -63,7 +97,6 @@ serve(async (req) => {
 
     const data = await response.json();
     let raw = data.choices?.[0]?.message?.content || "";
-    // strip markdown code fences if present
     raw = raw.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
     const parsed = JSON.parse(raw);
 
@@ -72,7 +105,7 @@ serve(async (req) => {
     });
   } catch (e: any) {
     console.error("generate-blog-post error:", e);
-    return new Response(JSON.stringify({ error: e.message || "Bilinmeyen hata" }), {
+    return new Response(JSON.stringify({ error: "İşlem başarısız oldu" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

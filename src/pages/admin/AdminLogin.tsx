@@ -8,7 +8,6 @@ import logo from "@/assets/pasa-motor-logo.png";
 const AdminLogin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,28 +22,14 @@ const AdminLogin = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      if (mode === "login") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast({ title: "Giriş başarılı", description: "Yönlendiriliyorsunuz..." });
-        navigate("/admin");
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: `${window.location.origin}/admin` },
-        });
-        if (error) throw error;
-        toast({
-          title: "Kayıt oluşturuldu",
-          description: "İlk kullanıcı otomatik admin olur. Şimdi giriş yapabilirsiniz.",
-        });
-        setMode("login");
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      toast({ title: "Giriş başarılı", description: "Yönlendiriliyorsunuz..." });
+      navigate("/admin");
     } catch (err: any) {
       toast({
-        title: "Hata",
-        description: err.message || "İşlem başarısız oldu.",
+        title: "Giriş başarısız",
+        description: "E-posta veya şifre hatalı.",
         variant: "destructive",
       });
     } finally {
@@ -65,27 +50,6 @@ const AdminLogin = () => {
         </div>
 
         <div className="glass-card rounded-2xl p-8">
-          <div className="flex gap-2 mb-6 p-1 bg-muted rounded-lg">
-            <button
-              type="button"
-              onClick={() => setMode("login")}
-              className={`flex-1 py-2 rounded-md text-sm font-medium transition ${
-                mode === "login" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-              }`}
-            >
-              Giriş Yap
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("signup")}
-              className={`flex-1 py-2 rounded-md text-sm font-medium transition ${
-                mode === "signup" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-              }`}
-            >
-              Kayıt Ol
-            </button>
-          </div>
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="text-sm font-medium text-foreground mb-1.5 block">E-posta</label>
@@ -124,15 +88,13 @@ const AdminLogin = () => {
               className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 disabled:opacity-50 transition glow-red"
             >
               {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-              {mode === "login" ? "Giriş Yap" : "Kayıt Ol"}
+              Giriş Yap
             </button>
           </form>
 
-          {mode === "signup" && (
-            <p className="mt-4 text-xs text-muted-foreground text-center">
-              ℹ️ Sisteme kayıt olan ilk kullanıcı otomatik olarak yönetici olur.
-            </p>
-          )}
+          <p className="mt-4 text-xs text-muted-foreground text-center">
+            🔒 Yalnızca yetkili yöneticiler giriş yapabilir.
+          </p>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Phone, MessageCircle, Package } from "lucide-react";
+import { sanitizeHtml } from "@/lib/sanitize";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Product = Tables<"products">;
@@ -123,7 +124,7 @@ const YedekParcaDetay = () => {
                 <p className="text-muted-foreground leading-relaxed mb-6">{product.description}</p>
               )}
               {product.content && (
-                <div className="prose prose-invert max-w-none mb-8 text-muted-foreground" dangerouslySetInnerHTML={{ __html: product.content }} />
+                <div className="prose prose-invert max-w-none mb-8 text-muted-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.content) }} />
               )}
 
               <div className="flex flex-wrap gap-3">
