@@ -14,6 +14,8 @@ import {
   Loader2,
   Menu,
   X,
+  Sparkles,
+  Settings,
 } from "lucide-react";
 import logo from "@/assets/pasa-motor-logo.png";
 
@@ -28,6 +30,8 @@ const navItems = [
   { to: "/admin/mesajlar", label: "Mesajlar", icon: MessageSquare },
   { to: "/admin/galeri", label: "Galeri", icon: ImageIcon },
   { to: "/admin/faq", label: "SSS", icon: HelpCircle },
+  { to: "/admin/animasyonlar", label: "Animasyonlar", icon: Sparkles },
+  { to: "/admin/ayarlar", label: "Ayarlar", icon: Settings },
 ];
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
