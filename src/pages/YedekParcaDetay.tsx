@@ -123,7 +123,7 @@ const YedekParcaDetay = () => {
                 <p className="text-muted-foreground leading-relaxed mb-6">{product.description}</p>
               )}
               {product.content && (
-                <div className="prose prose-invert max-w-none mb-8 text-muted-foreground" dangerouslySetInnerHTML={{ __html: product.content }} />
+                <div className="prose prose-invert max-w-none mb-8 text-muted-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.content) }} />
               )}
 
               <div className="flex flex-wrap gap-3">
