@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Phone, MessageCircle, Package } from "lucide-react";
+import { sanitizeHtml } from "@/lib/sanitize";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Product = Tables<"products">;
