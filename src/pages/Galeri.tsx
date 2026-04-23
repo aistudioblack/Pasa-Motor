@@ -2,6 +2,8 @@ import Layout from "@/components/layout/Layout";
 import { useState } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
 import serviceImg from "@/assets/service.jpg";
+import SEO, { breadcrumbSchema } from "@/components/seo/SEO";
+import JsonLd from "@/components/seo/JsonLd";
 
 const images = [
   { src: heroBg, title: "Showroom", category: "showroom" },
@@ -16,6 +18,18 @@ const Galeri = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Galeri — Showroom ve Servis Atölyemizden Kareler"
+        description="Paşa Motor showroom ve servis atölyesinden kareler. İstanbul Fatih Kocamustafapaşa motosiklet bayi galerisi."
+        canonical="/galeri"
+        keywords="paşa motor galeri, motosiklet showroom, servis atölyesi"
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Ana Sayfa", url: "/" },
+          { name: "Galeri", url: "/galeri" },
+        ])}
+      />
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">

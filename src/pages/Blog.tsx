@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { Calendar, ArrowRight, BookOpen } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
+import SEO, { breadcrumbSchema } from "@/components/seo/SEO";
+import JsonLd from "@/components/seo/JsonLd";
 
 type Post = Tables<"posts">;
 
@@ -33,8 +35,36 @@ const Blog = () => {
     });
   };
 
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Paşa Motor Blog",
+    url: "https://pasamotor.com.tr/blog",
+    publisher: { "@type": "Organization", name: "Paşa Motor" },
+    blogPost: posts.slice(0, 20).map((p) => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      url: `https://pasamotor.com.tr/blog/${p.slug}`,
+      datePublished: p.published_at,
+      image: p.cover_image || undefined,
+    })),
+  };
+
   return (
     <Layout>
+      <SEO
+        title="Blog — Motosiklet Bakım İpuçları ve Sektör Haberleri"
+        description="Paşa Motor blog: motosiklet bakım rehberleri, TVS, Hero, Falcon, Işıldar model incelemeleri, periyodik bakım ipuçları ve sektör haberleri."
+        canonical="/blog"
+        keywords="motosiklet blog, motor bakım ipuçları, motosiklet rehber, tvs hero falcon ışıldar"
+      />
+      <JsonLd data={blogSchema} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Ana Sayfa", url: "/" },
+          { name: "Blog", url: "/blog" },
+        ])}
+      />
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">

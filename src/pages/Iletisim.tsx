@@ -3,6 +3,29 @@ import { Phone, Mail, MapPin, Clock, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import SEO, { breadcrumbSchema } from "@/components/seo/SEO";
+import JsonLd from "@/components/seo/JsonLd";
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  url: "https://pasamotor.com.tr/iletisim",
+  about: { "@type": "LocalBusiness", name: "Paşa Motor" },
+  mainEntity: {
+    "@type": "Organization",
+    name: "Paşa Motor",
+    telephone: ["+902125868598", "+905348996817"],
+    email: "pasamotor@gmail.com",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Kızılelma Cad. No:66/A Kocamustafapaşa",
+      addressLocality: "Fatih",
+      addressRegion: "İstanbul",
+      postalCode: "34104",
+      addressCountry: "TR",
+    },
+  },
+};
 
 const Iletisim = () => {
   const { toast } = useToast();
@@ -34,6 +57,19 @@ const Iletisim = () => {
 
   return (
     <Layout>
+      <SEO
+        title="İletişim — Adres, Telefon ve Çalışma Saatleri"
+        description="Paşa Motor iletişim: Kızılelma Cad. No:66/A Kocamustafapaşa - Fatih/İstanbul. ☎ 0212 586 85 98 / 0534 899 68 17. Hafta içi 09:00-19:00, Cumartesi 09:00-17:00."
+        canonical="/iletisim"
+        keywords="paşa motor iletişim, motosiklet servisi adres, fatih kocamustafapaşa"
+      />
+      <JsonLd data={contactSchema} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Ana Sayfa", url: "/" },
+          { name: "İletişim", url: "/iletisim" },
+        ])}
+      />
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
