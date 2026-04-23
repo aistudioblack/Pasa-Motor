@@ -228,6 +228,16 @@ const AdminPosts = () => {
               <div>
                 <label className="text-xs text-muted-foreground">Kapak Görseli URL</label>
                 <input value={form.cover_image} onChange={(e) => setForm({ ...form, cover_image: e.target.value })} placeholder="https://..." className="w-full mt-1 px-3 py-2 rounded-lg bg-muted border border-border text-foreground text-sm" />
+                {form.cover_image && (
+                  <div className="mt-2 rounded-lg overflow-hidden border border-border bg-muted/40">
+                    <img
+                      src={form.cover_image}
+                      alt="Kapak önizleme"
+                      className="w-full max-h-48 object-cover"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                    />
+                  </div>
+                )}
               </div>
               <div className="grid grid-cols-1 gap-3">
                 <div>
