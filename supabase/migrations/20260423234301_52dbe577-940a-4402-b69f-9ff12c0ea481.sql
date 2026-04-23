@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Service role can manage blog images" ON storage.objects;

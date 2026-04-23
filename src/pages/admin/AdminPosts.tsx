@@ -28,6 +28,7 @@ const AdminPosts = () => {
   const [saving, setSaving] = useState(false);
   const [aiGenerating, setAiGenerating] = useState(false);
   const [aiTopic, setAiTopic] = useState("");
+  const [aiWithImage, setAiWithImage] = useState(true);
 
   const load = async () => {
     setLoading(true);
@@ -87,24 +88,41 @@ const AdminPosts = () => {
     setAiGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke("generate-blog-post", {
-        body: { topic: aiTopic.trim() },
+        body: { topic: aiTopic.trim(), generateImage: aiWithImage },
       });
-      if (error) throw error;
+      // Surface real error messages from edge function
+      if (error) {
+        // Try to read response body for detail
+        const ctx: any = (error as any).context;
+        let detail = error.message;
+        try {
+          if (ctx?.body) {
+            const text = typeof ctx.body === "string" ? ctx.body : await new Response(ctx.body).text();
+            const parsed = JSON.parse(text);
+            if (parsed?.error) detail = parsed.error;
+          }
+        } catch { /* ignore */ }
+        throw new Error(detail);
+      }
       if (data?.error) throw new Error(data.error);
       setForm({
         title: data.title || "",
         slug: slugify(data.title || ""),
         excerpt: data.excerpt || "",
         content: data.content || "",
-        cover_image: "",
+        cover_image: data.cover_image || "",
         meta_title: data.meta_title || data.title || "",
         meta_description: data.meta_description || data.excerpt || "",
         is_published: false,
       });
       setAiTopic("");
-      toast({ title: "AI yazı oluşturdu", description: "İncele ve yayınla." });
+      setOpen(true);
+      toast({
+        title: "AI içerik hazır",
+        description: data.cover_image ? "Kapak görseli de üretildi." : "İncele ve yayınla.",
+      });
     } catch (err: any) {
-      toast({ title: "AI Hatası", description: err.message, variant: "destructive" });
+      toast({ title: "AI Hatası", description: err.message || "Bilinmeyen hata", variant: "destructive" });
     } finally {
       setAiGenerating(false);
     }
@@ -128,7 +146,7 @@ const AdminPosts = () => {
           <h2 className="font-heading font-semibold text-foreground mb-1 flex items-center gap-2">
             ✨ AI ile Otomatik Blog Üret
           </h2>
-          <p className="text-xs text-muted-foreground mb-3">Bir konu girin, AI tam SEO uyumlu blog yazısı üretsin.</p>
+          <p className="text-xs text-muted-foreground mb-3">Bir konu girin, AI tam SEO uyumlu blog yazısı + kapak görseli üretsin.</p>
           <div className="flex gap-2 flex-wrap">
             <input
               value={aiTopic}
@@ -141,6 +159,15 @@ const AdminPosts = () => {
               Üret
             </button>
           </div>
+          <label className="flex items-center gap-2 mt-3 text-xs text-muted-foreground cursor-pointer">
+            <input
+              type="checkbox"
+              checked={aiWithImage}
+              onChange={(e) => setAiWithImage(e.target.checked)}
+              className="accent-primary"
+            />
+            Kapak görseli de üret (AI, ~10–15 sn ekler)
+          </label>
         </div>
 
         {loading ? (
@@ -201,6 +228,16 @@ const AdminPosts = () => {
               <div>
                 <label className="text-xs text-muted-foreground">Kapak Görseli URL</label>
                 <input value={form.cover_image} onChange={(e) => setForm({ ...form, cover_image: e.target.value })} placeholder="https://..." className="w-full mt-1 px-3 py-2 rounded-lg bg-muted border border-border text-foreground text-sm" />
+                {form.cover_image && (
+                  <div className="mt-2 rounded-lg overflow-hidden border border-border bg-muted/40">
+                    <img
+                      src={form.cover_image}
+                      alt="Kapak önizleme"
+                      className="w-full max-h-48 object-cover"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                    />
+                  </div>
+                )}
               </div>
               <div className="grid grid-cols-1 gap-3">
                 <div>
