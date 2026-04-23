@@ -1,6 +1,20 @@
 import Layout from "@/components/layout/Layout";
 import { Wrench, ShoppingBag, Package, Settings, Zap, ShieldCheck } from "lucide-react";
 import serviceImg from "@/assets/service.jpg";
+import SEO, { breadcrumbSchema } from "@/components/seo/SEO";
+import JsonLd from "@/components/seo/JsonLd";
+
+const servicesSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: [
+    { "@type": "Service", name: "Motosiklet Satışı", provider: { "@type": "LocalBusiness", name: "Paşa Motor" } },
+    { "@type": "Service", name: "Motor Servisi", provider: { "@type": "LocalBusiness", name: "Paşa Motor" } },
+    { "@type": "Service", name: "Elektrik & Elektronik Onarım", provider: { "@type": "LocalBusiness", name: "Paşa Motor" } },
+    { "@type": "Service", name: "Yedek Parça Satışı", provider: { "@type": "LocalBusiness", name: "Paşa Motor" } },
+    { "@type": "Service", name: "Periyodik Bakım & Onarım", provider: { "@type": "LocalBusiness", name: "Paşa Motor" } },
+  ].map((s, i) => ({ "@type": "ListItem", position: i + 1, item: s })),
+};
 
 const services = [
   { icon: ShoppingBag, title: "Motosiklet Satışı", desc: "TVS, Hero, Falcon ve Işıldar markalarının en güncel modellerini showroom'umuzda inceleyebilirsiniz. Kredi ve taksit seçenekleri mevcuttur." },
@@ -14,6 +28,19 @@ const services = [
 const Hizmetler = () => {
   return (
     <Layout>
+      <SEO
+        title="Hizmetlerimiz — Motosiklet Satış, Servis ve Yedek Parça"
+        description="Paşa Motor: TVS, Hero, Falcon, Işıldar motosiklet satışı, periyodik bakım, motor revizyon, elektrik onarım, yedek parça. İstanbul Fatih'te yetkili servis."
+        canonical="/hizmetler"
+        keywords="motosiklet servisi istanbul, motor bakımı fatih, motosiklet tamiri, periyodik bakım, motor revizyon"
+      />
+      <JsonLd data={servicesSchema} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Ana Sayfa", url: "/" },
+          { name: "Hizmetler", url: "/hizmetler" },
+        ])}
+      />
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">

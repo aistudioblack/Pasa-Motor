@@ -1,5 +1,7 @@
 import Layout from "@/components/layout/Layout";
 import { Shield, Award, Users, Calendar } from "lucide-react";
+import SEO, { breadcrumbSchema } from "@/components/seo/SEO";
+import JsonLd from "@/components/seo/JsonLd";
 
 const highlights = [
   { icon: Calendar, title: "20+ Yıllık Deneyim", desc: "Motosiklet sektöründe yılların verdiği tecrübe ve güvenle hizmet veriyoruz." },
@@ -11,6 +13,18 @@ const highlights = [
 const Hakkimizda = () => {
   return (
     <Layout>
+      <SEO
+        title="Hakkımızda — 20+ Yıllık Motosiklet Deneyimi"
+        description="Paşa Motor, İstanbul Fatih'te 20+ yıldır TVS, Hero, Falcon ve Işıldar markalarının yetkili bayisi. Nihat KAN liderliğinde motosiklet satış, servis ve yedek parça hizmeti."
+        canonical="/hakkimizda"
+        keywords="paşa motor hakkında, nihat kan, fatih motosiklet bayi, kocamustafapaşa motosiklet servisi"
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Ana Sayfa", url: "/" },
+          { name: "Hakkımızda", url: "/hakkimizda" },
+        ])}
+      />
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">

@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Package, Search, Filter } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { Tables } from "@/integrations/supabase/types";
+import SEO, { breadcrumbSchema } from "@/components/seo/SEO";
+import JsonLd from "@/components/seo/JsonLd";
 
 type Product = Tables<"products">;
 
@@ -41,8 +43,32 @@ const YedekParca = () => {
     fetchProducts();
   }, [activeBrand, search]);
 
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: products.slice(0, 20).map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `https://pasamotor.com.tr/yedek-parca/${p.slug}`,
+      name: p.title,
+    })),
+  };
+
   return (
     <Layout>
+      <SEO
+        title="Yedek Parça — TVS, Hero, Falcon, Işıldar Orijinal & Muadil"
+        description="Paşa Motor yedek parça mağazası: TVS, Hero, Falcon, Işıldar motosiklet için orijinal ve muadil parçalar. Geniş stok, hızlı temin, uygun fiyat. İstanbul Fatih."
+        canonical="/yedek-parca"
+        keywords="motosiklet yedek parça, tvs yedek parça, hero yedek parça, falcon yedek parça, ışıldar yedek parça, orijinal motor parçası"
+      />
+      <JsonLd data={itemListSchema} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Ana Sayfa", url: "/" },
+          { name: "Yedek Parça", url: "/yedek-parca" },
+        ])}
+      />
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">

@@ -4,6 +4,8 @@ import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Phone, MessageCircle, Package } from "lucide-react";
 import { sanitizeHtml } from "@/lib/sanitize";
+import SEO, { breadcrumbSchema } from "@/components/seo/SEO";
+import JsonLd from "@/components/seo/JsonLd";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Product = Tables<"products">;
@@ -65,8 +67,44 @@ const YedekParcaDetay = () => {
     );
   }
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.description || product.meta_description || product.title,
+    image: product.images && product.images.length > 0 ? product.images : ["https://pasamotor.com.tr/favicon.png"],
+    brand: { "@type": "Brand", name: product.brand },
+    sku: product.slug,
+    category: product.category,
+    offers: {
+      "@type": "Offer",
+      url: `https://pasamotor.com.tr/yedek-parca/${product.slug}`,
+      priceCurrency: "TRY",
+      price: product.price ?? undefined,
+      availability: product.is_active
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      seller: { "@type": "Organization", name: "Paşa Motor" },
+    },
+  };
+
   return (
     <Layout>
+      <SEO
+        title={product.meta_title || `${product.title} — ${product.brand} Yedek Parça`}
+        description={product.meta_description || product.description || `${product.title} — Paşa Motor ${product.brand} orijinal/muadil yedek parça.`}
+        canonical={`/yedek-parca/${product.slug}`}
+        image={product.images?.[0]}
+        type="product"
+      />
+      <JsonLd data={productSchema} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Ana Sayfa", url: "/" },
+          { name: "Yedek Parça", url: "/yedek-parca" },
+          { name: product.title, url: `/yedek-parca/${product.slug}` },
+        ])}
+      />
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <Link to="/yedek-parca" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
