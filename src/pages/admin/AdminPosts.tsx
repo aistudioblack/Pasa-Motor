@@ -146,7 +146,7 @@ const AdminPosts = () => {
           <h2 className="font-heading font-semibold text-foreground mb-1 flex items-center gap-2">
             ✨ AI ile Otomatik Blog Üret
           </h2>
-          <p className="text-xs text-muted-foreground mb-3">Bir konu girin, AI tam SEO uyumlu blog yazısı üretsin.</p>
+          <p className="text-xs text-muted-foreground mb-3">Bir konu girin, AI tam SEO uyumlu blog yazısı + kapak görseli üretsin.</p>
           <div className="flex gap-2 flex-wrap">
             <input
               value={aiTopic}
@@ -159,6 +159,15 @@ const AdminPosts = () => {
               Üret
             </button>
           </div>
+          <label className="flex items-center gap-2 mt-3 text-xs text-muted-foreground cursor-pointer">
+            <input
+              type="checkbox"
+              checked={aiWithImage}
+              onChange={(e) => setAiWithImage(e.target.checked)}
+              className="accent-primary"
+            />
+            Kapak görseli de üret (AI, ~10–15 sn ekler)
+          </label>
         </div>
 
         {loading ? (
