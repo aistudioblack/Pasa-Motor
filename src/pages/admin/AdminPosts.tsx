@@ -28,6 +28,7 @@ const AdminPosts = () => {
   const [saving, setSaving] = useState(false);
   const [aiGenerating, setAiGenerating] = useState(false);
   const [aiTopic, setAiTopic] = useState("");
+  const [aiWithImage, setAiWithImage] = useState(true);
 
   const load = async () => {
     setLoading(true);
