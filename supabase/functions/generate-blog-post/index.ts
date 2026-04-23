@@ -9,6 +9,20 @@ const corsHeaders = {
 const AI_GATEWAY_KEY = Deno.env.get("LOVABLE_API_KEY");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+
+const slugify = (s: string) =>
+  s.toLowerCase()
+    .replace(/ı/g, "i").replace(/ğ/g, "g").replace(/ü/g, "u")
+    .replace(/ş/g, "s").replace(/ö/g, "o").replace(/ç/g, "c")
+    .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+    .slice(0, 60) || "post";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -16,12 +30,15 @@ serve(async (req) => {
   }
 
   try {
+    if (!AI_GATEWAY_KEY) {
+      console.error("LOVABLE_API_KEY missing");
+      return json({ error: "Sunucu yapılandırma hatası: AI anahtarı eksik" }, 500);
+    }
+
     // --- Auth: require valid JWT + admin role ---
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ error: "Yetkisiz erişim. Lütfen tekrar giriş yapın." }, 401);
     }
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -31,9 +48,8 @@ serve(async (req) => {
     const token = authHeader.replace("Bearer ", "");
     const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
     if (claimsError || !claimsData?.claims) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      console.error("Auth claims error:", claimsError);
+      return json({ error: "Oturum geçersiz. Tekrar giriş yapın." }, 401);
     }
 
     const userId = claimsData.claims.sub;
@@ -42,33 +58,33 @@ serve(async (req) => {
       _role: "admin",
     });
     if (roleError || !isAdmin) {
-      return new Response(JSON.stringify({ error: "Forbidden: admin role required" }), {
-        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      console.error("Role check failed:", roleError);
+      return json({ error: "Bu işlem için admin yetkisi gerekli" }, 403);
     }
 
-    const { topic } = await req.json();
+    const body = await req.json().catch(() => ({}));
+    const { topic, generateImage = true } = body;
     if (!topic || typeof topic !== "string" || topic.length > 500) {
-      return new Response(JSON.stringify({ error: "Geçerli bir konu gerekli (max 500 karakter)" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ error: "Geçerli bir konu gerekli (max 500 karakter)" }, 400);
     }
 
-    const systemPrompt = `Sen Paşa Motor için profesyonel bir motosiklet uzmanı blog yazarısın. Türkçe, SEO uyumlu ve detaylı blog yazıları üretirsin. 
+    // ---------------- 1) Generate blog text ----------------
+    const systemPrompt = `Sen Paşa Motor için profesyonel bir motosiklet uzmanı blog yazarısın. Türkçe, SEO uyumlu ve detaylı blog yazıları üretirsin.
 Çıktıyı SADECE şu JSON formatında ver, başka hiçbir şey yazma:
 {
   "title": "akılda kalıcı, SEO uyumlu başlık (60 karakter altında)",
   "excerpt": "kısa özet (160 karakter civarı)",
   "meta_title": "SEO başlığı (60 karakter altı)",
   "meta_description": "meta açıklama (155 karakter altı)",
-  "content": "<h2>...</h2><p>...</p> formatında HTML içerik. En az 800 kelime, alt başlıklar (h2,h3), paragraflar, listeler (ul/li) içersin. Türkçe ve düzgün noktalama."
+  "content": "<h2>...</h2><p>...</p> formatında HTML içerik. En az 800 kelime, alt başlıklar (h2,h3), paragraflar, listeler (ul/li) içersin. Türkçe ve düzgün noktalama.",
+  "image_prompt": "kapak görseli için detaylı, fotorealistik İngilizce prompt (motosiklet odaklı, profesyonel atölye/yol/garaj atmosferi, sinematik aydınlatma, 16:9, blog cover photo)"
 }`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    console.log("[generate-blog-post] generating text for topic:", topic);
+    const textResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${AI_GATEWAY_KEY}`,
+        Authorization: `Bearer ${AI_GATEWAY_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -80,34 +96,97 @@ serve(async (req) => {
       }),
     });
 
-    if (!response.ok) {
-      const errText = await response.text();
-      if (response.status === 429) {
-        return new Response(JSON.stringify({ error: "AI rate limit aşıldı. Biraz bekleyin." }), {
-          status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      if (response.status === 402) {
-        return new Response(JSON.stringify({ error: "AI kredisi tükendi. Cloud ayarlarından kredi ekleyin." }), {
-          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-      throw new Error(`AI hatası: ${errText}`);
+    if (!textResp.ok) {
+      const errText = await textResp.text();
+      console.error("AI text gen error:", textResp.status, errText);
+      if (textResp.status === 429) return json({ error: "AI rate limit aşıldı. Biraz bekleyin." }, 429);
+      if (textResp.status === 402) return json({ error: "AI kredisi tükendi. Cloud ayarlarından kredi ekleyin." }, 402);
+      return json({ error: `AI metin üretemedi (${textResp.status})` }, 502);
     }
 
-    const data = await response.json();
-    let raw = data.choices?.[0]?.message?.content || "";
+    const textData = await textResp.json();
+    let raw = textData.choices?.[0]?.message?.content || "";
     raw = raw.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
-    const parsed = JSON.parse(raw);
 
-    return new Response(JSON.stringify(parsed), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    let parsed: any;
+    try {
+      parsed = JSON.parse(raw);
+    } catch (e) {
+      console.error("JSON parse error:", e, "raw:", raw.slice(0, 500));
+      return json({ error: "AI cevabı işlenemedi. Tekrar deneyin." }, 502);
+    }
+
+    // ---------------- 2) Generate cover image (optional) ----------------
+    let coverImageUrl: string | null = null;
+    if (generateImage && parsed.image_prompt) {
+      try {
+        console.log("[generate-blog-post] generating image");
+        const imgPrompt = `${parsed.image_prompt}. Professional motorcycle blog cover photo, cinematic lighting, sharp focus, 16:9 aspect, no text, no watermark, no logos.`;
+
+        const imgResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${AI_GATEWAY_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "google/gemini-2.5-flash-image",
+            messages: [{ role: "user", content: imgPrompt }],
+            modalities: ["image", "text"],
+          }),
+        });
+
+        if (imgResp.ok) {
+          const imgData = await imgResp.json();
+          const dataUrl: string | undefined =
+            imgData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+
+          if (dataUrl?.startsWith("data:image/")) {
+            // data:image/png;base64,xxxxx
+            const m = dataUrl.match(/^data:(image\/[a-z]+);base64,(.+)$/i);
+            if (m) {
+              const mime = m[1];
+              const ext = mime.split("/")[1] || "png";
+              const bytes = Uint8Array.from(atob(m[2]), (c) => c.charCodeAt(0));
+              const fileName = `${Date.now()}-${slugify(parsed.title || topic)}.${ext}`;
+
+              // Upload using service role to bypass RLS
+              const adminClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+              const { error: upErr } = await adminClient.storage
+                .from("blog-images")
+                .upload(fileName, bytes, { contentType: mime, upsert: false });
+
+              if (upErr) {
+                console.error("Storage upload error:", upErr);
+              } else {
+                const { data: pub } = adminClient.storage.from("blog-images").getPublicUrl(fileName);
+                coverImageUrl = pub.publicUrl;
+                console.log("[generate-blog-post] cover uploaded:", coverImageUrl);
+              }
+            }
+          } else {
+            console.warn("Image response did not contain data URL");
+          }
+        } else {
+          const t = await imgResp.text();
+          console.error("Image gen failed:", imgResp.status, t.slice(0, 300));
+        }
+      } catch (e) {
+        console.error("Image generation exception:", e);
+        // Non-fatal — still return blog content
+      }
+    }
+
+    return json({
+      title: parsed.title,
+      excerpt: parsed.excerpt,
+      meta_title: parsed.meta_title,
+      meta_description: parsed.meta_description,
+      content: parsed.content,
+      cover_image: coverImageUrl,
     });
   } catch (e: any) {
-    console.error("generate-blog-post error:", e);
-    return new Response(JSON.stringify({ error: "İşlem başarısız oldu" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    console.error("generate-blog-post fatal:", e?.message, e?.stack);
+    return json({ error: e?.message || "İşlem başarısız oldu" }, 500);
   }
 });
